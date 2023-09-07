@@ -26,15 +26,14 @@ namespace TheJitu_Commerce_Products.Controllers
         // create a product
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ResponseDto>> AddProduct(ProductsRequestDto newProduct)
+        public async Task<ActionResult<ResponseDto>> AddProduct(ProductsRequestDto products)
         {
-            var newItem = _mapper.Map<Product>(newProduct);
-
+            var newItem = _mapper.Map<Product>(products);
             var response = await _products.AddProductAsync(newItem);
             if (response != null)
             {
-                _responseDto.Message = response;
                 _responseDto.IsSuccess = true;
+                _responseDto.Message = response;
                 return Ok(_responseDto);
             }
             _responseDto.Message = "Bad Request";
@@ -48,39 +47,37 @@ namespace TheJitu_Commerce_Products.Controllers
             var products = await _products.GetAllProductsAsync();
             if (products != null)
             {
-                _responseDto.Message = " ";
-                _responseDto.IsSuccess = true;
-                _responseDto.Result = products;
-                return Ok(_responseDto);
-            }
-
-            _responseDto.Message = " ";
-            _responseDto.IsSuccess = false;
-            return BadRequest(_responseDto);
-        }
-
-        // get product by id
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ResponseDto>> GetProductsById(int id)
-        {
-            var products = await _products.GetProductByIdAync(id);
-            if (products != null)
-            {
                 _responseDto.Message = "";
                 _responseDto.IsSuccess = true;
                 _responseDto.Result = products;
                 return Ok(_responseDto);
             }
-
-            _responseDto.Message = "Product Not Found ";
             _responseDto.IsSuccess = false;
+            _responseDto.Message = "";
+            return BadRequest(_responseDto);
+        }
+
+        // get product by id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResponseDto>> GetProductById(Guid id)
+        {
+            var products = await _products.GetProductByIdAync(id);
+            if (products != null)
+            {
+                _responseDto.IsSuccess = true;
+                _responseDto.Message = "";
+                _responseDto.Result = products;
+                return Ok(_responseDto);
+            }
+            _responseDto.IsSuccess = false;
+            _responseDto.Message = "";
             return BadRequest(_responseDto);
         }
 
         //update product
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ResponseDto>> UpdateProduct(int id, ProductsRequestDto updateProduct)
+        public async Task<ActionResult<ResponseDto>> UpdateProduct(Guid id, ProductsRequestDto updateProduct)
         {
             var product = await _products.GetProductByIdAync(id);
             if (product == null)
@@ -90,22 +87,21 @@ namespace TheJitu_Commerce_Products.Controllers
                 return BadRequest(_responseDto);
             }
             var updatedProduct = _mapper.Map(updateProduct, product);
-            var isUpdated = await _products.UpdateProductAsync(updatedProduct);
-            if (isUpdated != null)
+            var newProduct = await _products.UpdateProductAsync(updatedProduct);
+            if (newProduct != null)
             {
-                _responseDto.Message = isUpdated;
                 _responseDto.IsSuccess = true;
+                _responseDto.Message = newProduct;
                 return Ok(_responseDto);
             }
-
-            _responseDto.Message = "Bad Request";
             _responseDto.IsSuccess = false;
+            _responseDto.Message = "Failed";
             return BadRequest(_responseDto);
         }
         // delete product
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ResponseDto>> DeleteProduct(int id)
+        public async Task<ActionResult<ResponseDto>> DeleteProduct(Guid id)
         {
             var product = await _products.GetProductByIdAync(id);
             if (product == null)
@@ -114,17 +110,17 @@ namespace TheJitu_Commerce_Products.Controllers
                 _responseDto.IsSuccess = false;
                 return BadRequest(_responseDto);
             }
-            var isDeleted = await _products.DeleteProductAsync(product);
-            if (isDeleted != null)
+            var deletedProduct = _products.DeleteProductAsync(product);
+            if (deletedProduct != null)
             {
-                _responseDto.Message = isDeleted;
                 _responseDto.IsSuccess = true;
+                _responseDto.Message = "Success";
                 return Ok(_responseDto);
             }
-
-            _responseDto.Message = "Bad Request";
             _responseDto.IsSuccess = false;
+            _responseDto.Message = "Failed";
             return BadRequest(_responseDto);
+
         }
     }
 }

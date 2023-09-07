@@ -16,7 +16,7 @@ namespace TheJitu_Commerce_Auth.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IJWtTokenGenerator _jwtGenerator;
-        public UserService(AppDbContext database , UserManager<ApplicationUser> userManager, IJWtTokenGenerator tokenGenerator, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public UserService(AppDbContext database, UserManager<ApplicationUser> userManager, IJWtTokenGenerator tokenGenerator, RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -25,19 +25,19 @@ namespace TheJitu_Commerce_Auth.Services
             _jwtGenerator = tokenGenerator;
         }
         public async Task<bool> AssignUserRole(string email, string Rolename)
-        {   
+        {
 
             //Get user by email
             var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
-            if(user != null) 
+            if (user != null)
             {
 
                 //user Exist and we can assign a role
                 //check if role exist
-                if(!_roleManager.RoleExistsAsync(Rolename).GetAwaiter().GetResult())
-                {   
+                if (!_roleManager.RoleExistsAsync(Rolename).GetAwaiter().GetResult())
+                {
                     //first create it
-                     _roleManager.CreateAsync(new IdentityRole(Rolename)).GetAwaiter().GetResult();
+                    _roleManager.CreateAsync(new IdentityRole(Rolename)).GetAwaiter().GetResult();
                 }
 
                 await _userManager.AddToRoleAsync(user, Rolename);
@@ -49,19 +49,19 @@ namespace TheJitu_Commerce_Auth.Services
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
-           //get user by username
-           var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u=>u.UserName.ToLower()==loginRequestDto.Username.ToLower());
-           //Check if password is the right one 
-           var isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
+            //get user by username
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName.ToLower() == loginRequestDto.Username.ToLower());
+            //Check if password is the right one 
+            var isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
 
             //checks if user is null or password is wrong
-            if(!isValid || user == null)
+            if (!isValid || user == null)
             {
                 new LoginResponseDto();
             }
 
             //user provided right credential
-            var roles =await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
             //Create Token
             var token = _jwtGenerator.GenerateToken(user, roles);
             var loggedUser = new LoginResponseDto()
@@ -72,10 +72,10 @@ namespace TheJitu_Commerce_Auth.Services
 
             return loggedUser;
 
-        
+
         }
 
-        public async  Task<string> RegisterUser(RegisterRequestDto registerRequestDto)
+        public async Task<string> RegisterUser(RegisterRequestDto registerRequestDto)
         {
             //ApplicationUser user = new()
             //{
@@ -83,20 +83,20 @@ namespace TheJitu_Commerce_Auth.Services
             //    UserName = registerRequestDto.Email,
             //    PhoneNumber = registerRequestDto.PhoneNumber,
             //    Name = registerRequestDto.Name,
-          //  };
+            //  };
 
             var user = _mapper.Map<ApplicationUser>(registerRequestDto);
 
             try
-            {   
+            {
 
                 //user is created 
                 var result = await _userManager.CreateAsync(user, registerRequestDto.Password);
 
-                if(result.Succeeded)
-                {   
+                if (result.Succeeded)
+                {
                     //if success return empty string
-                  
+
 
                     //var get User 
                     //var existingUser = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.UserName.ToLower() == registerRequestDto.Email.ToLower());
@@ -108,7 +108,9 @@ namespace TheJitu_Commerce_Auth.Services
                     //identity Error if any
                     return result.Errors.FirstOrDefault().Description;
                 }
-            }catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 return ex.Message;
             }
         }

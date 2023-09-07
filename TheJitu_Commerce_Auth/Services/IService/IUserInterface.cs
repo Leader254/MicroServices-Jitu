@@ -4,7 +4,6 @@ namespace TheJitu_Commerce_Auth.Services.IService
 {
     public interface IUserInterface
     {
-
         Task<string> RegisterUser(RegisterRequestDto registerRequestDto);
 
         Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);

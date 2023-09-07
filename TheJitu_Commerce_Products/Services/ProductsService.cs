@@ -15,30 +15,29 @@ namespace TheJitu_Commerce_Products.Services
         {
             _context = context;
         }
-
         public async Task<string> AddProductAsync(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            return "Added Successfully";
+            return "Product Added Successfully";
         }
 
-        public async Task<string> DeleteProductAsync(Product products)
+        public async Task<string> DeleteProductAsync(Product product)
         {
-            _context.Products.Remove(products);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return "Product Removed Successfully";
-
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            var products = await _context.Products.ToListAsync();
+            return products;
         }
 
-        public async Task<Product> GetProductByIdAync(int id)
+        public async Task<Product> GetProductByIdAync(Guid id)
         {
-            return await _context.Products.Where(x => x.ProductId == id).FirstOrDefaultAsync();
+            return await _context.Products.Where(p => p.ProductId == id).FirstOrDefaultAsync();
         }
 
         public async Task<string> UpdateProductAsync(Product product)

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TheJitu_commerce_Coupons.Controllers
+namespace TheJitu_Commerce_EmailService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

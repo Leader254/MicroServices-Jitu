@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheJitu_Commerce_Auth", "Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheJitu_commerce_Coupons", "TheJitu_commerce_Coupons\TheJitu_commerce_Coupons.csproj", "{DA288A0D-3AEF-42D0-8DC5-10E4285042FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheJitu_Commerce_Products", "TheJitu_Commerce_Products\TheJitu_Commerce_Products.csproj", "{2FBEF632-EE58-48D3-BB13-86733CE2FC2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheJitu_Commerce_Products", "TheJitu_Commerce_Products\TheJitu_Commerce_Products.csproj", "{2FBEF632-EE58-48D3-BB13-86733CE2FC2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheJitu_Commerce_Cart", "TheJitu_Commerce_Cart\TheJitu_Commerce_Cart.csproj", "{487329F2-3F82-4571-8580-6698BC24707B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheJitu_MessageBus", "TheJitu_MessageBus\TheJitu_MessageBus.csproj", "{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheJitu_Commerce_EmailService", "TheJitu_Commerce_EmailService\TheJitu_Commerce_EmailService.csproj", "{B3C6E9A4-9BEC-48DE-83AE-249011E07547}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{2FBEF632-EE58-48D3-BB13-86733CE2FC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FBEF632-EE58-48D3-BB13-86733CE2FC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FBEF632-EE58-48D3-BB13-86733CE2FC2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487329F2-3F82-4571-8580-6698BC24707B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487329F2-3F82-4571-8580-6698BC24707B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487329F2-3F82-4571-8580-6698BC24707B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487329F2-3F82-4571-8580-6698BC24707B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C6E9A4-9BEC-48DE-83AE-249011E07547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C6E9A4-9BEC-48DE-83AE-249011E07547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C6E9A4-9BEC-48DE-83AE-249011E07547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C6E9A4-9BEC-48DE-83AE-249011E07547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +59,9 @@ Global
 		{19F436AE-63CF-458B-9314-ED869A254069} = {DFA5F4E5-F099-427A-8336-6079A6A44903}
 		{DA288A0D-3AEF-42D0-8DC5-10E4285042FC} = {DFA5F4E5-F099-427A-8336-6079A6A44903}
 		{2FBEF632-EE58-48D3-BB13-86733CE2FC2F} = {DFA5F4E5-F099-427A-8336-6079A6A44903}
+		{487329F2-3F82-4571-8580-6698BC24707B} = {DFA5F4E5-F099-427A-8336-6079A6A44903}
+		{59AC2A38-BC6F-48EB-B7AF-068C9E3B1BC1} = {CF2E58BB-839B-46DA-9B9A-9512622D2335}
+		{B3C6E9A4-9BEC-48DE-83AE-249011E07547} = {DFA5F4E5-F099-427A-8336-6079A6A44903}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F574DA5E-D559-447B-AFE6-6411F9ED8FC5}

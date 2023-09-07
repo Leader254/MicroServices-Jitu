@@ -2,9 +2,8 @@
 
 namespace TheJitu_Commerce_Auth.Services.IService
 {
-    public interface IJWtTokenGenerator 
+    public interface IJWtTokenGenerator
     {
-
         string GenerateToken(ApplicationUser user, IEnumerable<string> roles);
     }
 }

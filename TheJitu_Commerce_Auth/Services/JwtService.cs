@@ -30,7 +30,7 @@ namespace TheJitu_Commerce_Auth.Services
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
 
             //add Roles
-            claims.AddRange(roles.Select(r=>new Claim(ClaimTypes.Role, r)));
+            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {

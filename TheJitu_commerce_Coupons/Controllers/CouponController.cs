@@ -12,7 +12,7 @@ namespace TheJitu_commerce_Coupons.Controllers
     [ApiController]
     [Authorize]
     public class CouponController : ControllerBase
-    {   
+    {
 
         private readonly IMapper _mapper;
         private readonly ICouponInterface _couponInterface;
@@ -28,7 +28,7 @@ namespace TheJitu_commerce_Coupons.Controllers
         public async Task<ActionResult<ResponseDto>> GetAllCoupons()
         {
             var coupons = await _couponInterface.GetCouponsAsync();
-            if(coupons == null)
+            if (coupons == null)
             {
                 _responseDto.IsSuccess = false;
                 _responseDto.Message = "Error Occured";
@@ -40,7 +40,7 @@ namespace TheJitu_commerce_Coupons.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ResponseDto>> AddCoupon(CouponRequestDto couponRequest)
         {
             var newCoupon = _mapper.Map<Coupon>(couponRequest);
@@ -56,10 +56,10 @@ namespace TheJitu_commerce_Coupons.Controllers
             return Ok(_responseDto);
         }
 
-        [HttpGet("GetByName{code}")]
-        public async Task<ActionResult<ResponseDto>> GetCoupon(string code )
+        [HttpGet("GetByName/{code}")]
+        public async Task<ActionResult<ResponseDto>> GetCoupon(string code)
         {
-            var coupon= await _couponInterface.GetCouponByNameAsync(code);
+            var coupon = await _couponInterface.GetCouponByNameAsync(code);
             if (coupon == null)
             {
                 _responseDto.IsSuccess = false;
@@ -73,7 +73,7 @@ namespace TheJitu_commerce_Coupons.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ResponseDto>> UpdateCoupon(Guid id , CouponRequestDto couponRequestDto)
+        public async Task<ActionResult<ResponseDto>> UpdateCoupon(Guid id, CouponRequestDto couponRequestDto)
         {
             var coupon = await _couponInterface.GetCouponByIdAsync(id);
             if (coupon == null)
@@ -83,7 +83,7 @@ namespace TheJitu_commerce_Coupons.Controllers
                 return BadRequest(_responseDto);
             }
             //update
-            var updated =_mapper.Map(couponRequestDto, coupon);
+            var updated = _mapper.Map(couponRequestDto, coupon);
             var response = await _couponInterface.UpdateCouponAsync(updated);
             _responseDto.Result = response;
             return Ok(_responseDto);
@@ -101,7 +101,7 @@ namespace TheJitu_commerce_Coupons.Controllers
                 return BadRequest(_responseDto);
             }
             //delete
-            
+
             var response = await _couponInterface.DeleteCouponAsync(coupon);
             _responseDto.Result = response;
             return Ok(_responseDto);

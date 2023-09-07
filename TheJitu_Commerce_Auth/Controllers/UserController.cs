@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TheJitu_Commerce_Auth.Model;
 using TheJitu_Commerce_Auth.Model.Dtos;
 using TheJitu_Commerce_Auth.Services.IService;
+using TheJitu_MessageBus;
 
 namespace TheJitu_Commerce_Auth.Controllers
 {
@@ -12,17 +14,21 @@ namespace TheJitu_Commerce_Auth.Controllers
 
         private IUserInterface _userInterface;
         private readonly ResponseDto _response;
-        public UserController(IUserInterface userInterface)
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        public UserController(IUserInterface userInterface, IConfiguration configuration, IMessageBus messageBus)
         {
             _userInterface = userInterface;
-            //Don't inject just initialize
             _response = new ResponseDto();
+            _configuration = configuration;
+            _messageBus = messageBus;
+
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<ResponseDto>> AddUSer(RegisterRequestDto registerRequestDto)
         {
-            var errorMessage = await  _userInterface.RegisterUser(registerRequestDto);
+            var errorMessage = await _userInterface.RegisterUser(registerRequestDto);
             if (!string.IsNullOrWhiteSpace(errorMessage))
             {
                 //error
@@ -31,7 +37,15 @@ namespace TheJitu_Commerce_Auth.Controllers
 
                 return BadRequest(_response);
             }
-
+            //success and send to message bus
+            var queueName = _configuration.GetSection("QueuesandTopic:RegisterUser").Get<string>();
+            var message = new UserMessage()
+            {
+                Email = registerRequestDto.Email,
+                Name = registerRequestDto.Name
+            };
+            await _messageBus.PublishMessage(message, queueName);
+            _response.Message = "User Created Successfully";
             return Ok(_response);
         }
 
@@ -39,7 +53,7 @@ namespace TheJitu_Commerce_Auth.Controllers
         public async Task<ActionResult<ResponseDto>> LoginUser(LoginRequestDto loginRequestDto)
         {
             var response = await _userInterface.Login(loginRequestDto);
-            if (response.User ==null)
+            if (response.User == null)
             {
                 //error
                 _response.IsSuccess = false;
@@ -47,7 +61,7 @@ namespace TheJitu_Commerce_Auth.Controllers
 
                 return BadRequest(_response);
             }
-            _response.Result= response;
+            _response.Result = response;
             return Ok(_response);
         }
 
@@ -63,7 +77,7 @@ namespace TheJitu_Commerce_Auth.Controllers
 
                 return BadRequest(_response);
             }
-            _response.Result= response;
+            _response.Result = response;
             return Ok(_response);
         }
     }
